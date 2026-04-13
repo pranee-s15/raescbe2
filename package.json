@@ -1,15 +1,24 @@
 {
-  "name": "raes-boutique",
+  "name": "raes-boutique-frontend",
   "private": true,
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "concurrently \"npm --prefix backend run dev\" \"npm --prefix frontend run dev\"",
-    "backend": "npm --prefix backend run dev",
-    "frontend": "npm --prefix frontend run dev",
-    "build": "echo skip",
-    "start": "npm --prefix backend run start"
+  "dev": "vite",
+  "build": "node ./node_modules/vite/bin/vite.js build",
+  "preview": "vite preview"
+},
+  "dependencies": {
+    "lucide-react": "^0.379.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.23.0"
   },
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "@vitejs/plugin-react": "^4.2.0",
+    "vite": "^5.2.0"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }

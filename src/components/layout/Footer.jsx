@@ -8,12 +8,14 @@ const Footer = () => (
     <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[1.2fr,0.8fr,0.6fr]">
       <div>
         <div className="flex items-center gap-3">
-          <LogoMark className="h-14 w-14" withText={false} />
-          <div>
-            <h3 className="font-display text-3xl text-boutique-gold">Raes Boutique</h3>
-            <p className="text-sm text-white/70">Luxury silhouettes. Timeless celebration.</p>
-          </div>
+          <LogoMark
+            className="h-14 w-14"
+            withText
+            titleClassName="text-boutique-gold"
+            subtitleClassName="text-white"
+          />
         </div>
+        <p className="mt-3 text-sm text-white/70">Luxury silhouettes. Timeless celebration.</p>
       </div>
 
       <div>

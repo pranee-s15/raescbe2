@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { apiRequest } from '../api/client';
 import contactDesk from '../assets/contact/contact-desk.png';
-import contactDisplay from '../assets/contact/contact-display.png';
 import heroLotus from '../assets/raes-hero-lotus-cutout.png';
 import categoryLookBlack from '../assets/hero/new-set/hero-look-black.png';
 import categorySareeCoral from '../assets/hero/new-set/hero-saree-coral.png';
@@ -117,15 +116,30 @@ const HomePage = () => {
 
   return (
     <div className="pb-10">
-      <section className="relative min-h-[48vh] overflow-hidden bg-gradient-to-br from-[#6B0F1A] via-[#5c0d18] to-[#2A060B] md:min-h-[56vh] lg:min-h-[62vh]">
-        <HeroCarousel lotusSrc={heroLotus} items={heroItems} className="min-h-[48vh] md:min-h-[56vh] lg:min-h-[62vh]" />
+      <section className="relative min-h-[41vh] overflow-hidden bg-gradient-to-br from-[#6B0F1A] via-[#5c0d18] to-[#2A060B] md:min-h-[56vh] lg:min-h-[62vh]">
+        <HeroCarousel lotusSrc={heroLotus} items={heroItems} className="min-h-[41vh] md:min-h-[56vh] lg:min-h-[62vh]" />
       </section>
 
       <section className="mx-auto mt-14 max-w-7xl px-4 md:px-6 lg:px-8">
         <div className="glass-panel relative overflow-hidden px-5 py-8 md:px-8 md:py-10 lg:px-10">
-          <div className="relative mb-8 flex justify-center md:mb-10">
-            <div className="relative h-[7.5rem] w-[12.5rem] sm:h-[9.5rem] sm:w-[15rem] md:h-[11rem] md:w-[17.5rem]">
-              <div className="absolute left-1/2 top-1/2 z-20 h-24 w-24 -translate-y-1/2 translate-x-4 overflow-hidden rounded-full border border-boutique-gold/25 shadow-[0_18px_42px_rgba(107,15,26,0.12)] sm:h-32 sm:w-32 sm:translate-x-6 md:h-36 md:w-36 md:translate-x-7">
+          <div className="flex flex-col items-center gap-7 md:grid md:grid-cols-[minmax(0,1.2fr)_auto] md:items-center md:gap-10">
+            <div className="order-2 flex w-full flex-col items-center text-center md:order-1 md:items-start md:text-left">
+              <p className="mb-2 font-body text-[10px] uppercase tracking-[0.3em] text-boutique-gold md:text-[11px]">
+                Discover
+              </p>
+              <h2 className="max-w-[19ch] text-balance font-section text-[1.5rem] leading-[1.18] tracking-[-0.02em] text-boutique-maroon sm:text-[1.8rem] md:max-w-[24ch] md:text-[2.1rem] lg:max-w-none lg:text-[2.45rem]">
+                A boutique story told through fine drape and detail.
+              </h2>
+              <p className="mt-3 max-w-[36rem] text-pretty text-sm leading-6 text-boutique-ink/68 md:text-[15px] lg:text-base">
+                Elegant silhouettes designed with quiet luxury, celebratory warmth, and boutique craftsmanship.
+              </p>
+              <Link to="/collections" className="gold-button mt-6 inline-flex">
+                Discover Collection
+              </Link>
+            </div>
+
+            <div className="order-1 flex w-full justify-center md:order-2 md:w-auto md:justify-end">
+              <div className="h-28 w-28 overflow-hidden rounded-full border border-boutique-gold/25 shadow-[0_18px_42px_rgba(107,15,26,0.12)] sm:h-32 sm:w-32 md:h-40 md:w-40 lg:h-44 lg:w-44">
                 <img
                   src={contactDesk}
                   alt="Raes Boutique interior"
@@ -133,31 +147,8 @@ const HomePage = () => {
                   loading="lazy"
                 />
               </div>
-
-              <div
-                className="absolute left-1/2 top-1/2 z-10 h-20 w-20 -translate-x-[3.2rem] -translate-y-1/2 overflow-hidden rounded-full border border-boutique-gold/20 shadow-[0_14px_34px_rgba(107,15,26,0.1)] sm:h-28 sm:w-28 sm:-translate-x-[4.7rem] md:h-32 md:w-32 md:-translate-x-[5.65rem]"
-                style={{
-                  WebkitMaskImage: 'radial-gradient(circle at 86% 50%, transparent 31%, black 32%)',
-                  maskImage: 'radial-gradient(circle at 86% 50%, transparent 31%, black 32%)'
-                }}
-              >
-                <img
-                  src={contactDisplay}
-                  alt="Raes Boutique display wall"
-                  className="absolute inset-y-0 left-[-12%] h-full w-[136%] max-w-none object-cover object-left"
-                  loading="lazy"
-                />
-              </div>
             </div>
           </div>
-          <SectionHeading
-            eyebrow="Discover"
-            title="A boutique story told through fine drape and detail."
-            description="Elegant silhouettes designed with quiet luxury, celebratory warmth, and boutique craftsmanship."
-          />
-          <Link to="/collections" className="gold-button mt-6 inline-flex">
-            Discover Collection
-          </Link>
         </div>
       </section>
 

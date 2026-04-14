@@ -32,12 +32,12 @@ const ProductPage = () => {
     <section className="mx-auto max-w-7xl px-4 py-16 md:px-6 lg:px-8">
       <BackButton fallbackTo="/collections" label="Back" />
       <div className="mt-4 grid grid-cols-1 items-start gap-4 lg:grid-cols-[0.88fr,1.12fr] lg:gap-8">
-        <div className="overflow-hidden rounded-[1.35rem] bg-white p-3 shadow-soft md:rounded-[1.75rem]">
+        <div className="overflow-hidden rounded-[1.35rem] bg-white p-2 shadow-soft md:rounded-[1.75rem] md:p-3">
           <ProductImage
             product={product}
             fit="contain"
-            className="h-[250px] rounded-[1.05rem] bg-[#f7efe8] sm:h-[290px] md:h-[320px] lg:h-[360px]"
-            imageClassName="p-3 md:p-4"
+            className="h-[320px] rounded-[1.05rem] bg-[#f7efe8] sm:h-[340px] md:h-[320px] lg:h-[360px]"
+            imageClassName="p-1.5 sm:p-2 md:p-4"
           />
         </div>
 

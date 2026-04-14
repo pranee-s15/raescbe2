@@ -17,17 +17,17 @@ const getStackStyle = (offset, isMobile) => {
 
     if (Math.abs(offset) === 1) {
       return {
-        x: offset > 0 ? 156 : -156,
+        x: offset > 0 ? 136 : -136,
         y: 12,
-        scale: 0.84,
-        opacity: 0.9,
+        scale: 0.78,
+        opacity: 0.92,
         zIndex: 40,
         filter: 'blur(0px)'
       };
     }
 
     return {
-      x: offset > 0 ? 180 : -180,
+      x: offset > 0 ? 210 : -210,
       y: 24,
       scale: 0.76,
       opacity: 0,
@@ -86,7 +86,7 @@ const PlaceholderCard = ({ centered = false, item }) => (
     }`}
   >
       <div className="relative p-2 md:p-2.5">
-      <div className="relative h-[270px] w-[185px] overflow-hidden rounded-[0.9rem] bg-[#b5b5b5] text-white md:h-[360px] md:w-[245px] md:rounded-[1.05rem] lg:h-[430px] lg:w-[300px]">
+      <div className="relative h-[248px] w-[140px] overflow-hidden rounded-[0.9rem] bg-[#b5b5b5] text-white md:h-[360px] md:w-[245px] md:rounded-[1.05rem] lg:h-[430px] lg:w-[300px]">
         {item?.src ? (
           <>
             <img
@@ -158,7 +158,7 @@ export default function HeroCarousel({ className = '', items = [], lotusSrc = ''
         </div>
       ) : null}
 
-      <div className="relative mx-auto flex w-full max-w-[1760px] items-center justify-center px-4 md:px-8">
+      <div className="relative mx-auto flex w-full max-w-[1760px] items-center justify-center px-2 md:px-8">
         <button
           type="button"
           onClick={prev}

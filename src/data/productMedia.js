@@ -20,7 +20,7 @@ export const getProductImage = (product) => {
     return '';
   }
 
-  if (product.image && /^(https?:)?\/\//.test(product.image)) {
+  if (typeof product.image === 'string' && product.image.trim()) {
     return product.image;
   }
 

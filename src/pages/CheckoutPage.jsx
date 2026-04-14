@@ -7,6 +7,7 @@ import ProductImage from '../components/shared/ProductImage';
 import SectionHeading from '../components/shared/SectionHeading';
 import { useAuth } from '../context/AuthContext';
 import { useShop } from '../context/ShopContext';
+import { getProductImage } from '../data/productMedia';
 import { formatCurrency } from '../data/site';
 
 const paymentMethods = [
@@ -87,11 +88,14 @@ const createLocalOrder = ({ items, form, subtotal, shipping, tax, total }) => ({
     country: form.country
   },
   items: items.map((item) => ({
+    _id: item._id,
     product: item._id,
     name: item.name,
     price: item.price,
     quantity: item.quantity,
-    image: item.image || ''
+    image: item.image || getProductImage(item),
+    fabric: item.fabric || '',
+    category: item.category || ''
   }))
 });
 

@@ -3,6 +3,7 @@ import { PackageCheck } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { apiRequest } from '../api/client';
 import BackButton from '../components/shared/BackButton';
+import ProductImage from '../components/shared/ProductImage';
 import SectionHeading from '../components/shared/SectionHeading';
 import { useAuth } from '../context/AuthContext';
 import { formatCurrency } from '../data/site';
@@ -16,8 +17,11 @@ const demoOrders = [
     totalAmount: 14999,
     items: [
       {
+        _id: 'demo-product-1',
         name: 'Temple Gold Kanchipuram Saree',
-        quantity: 1
+        quantity: 1,
+        fabric: 'Silk',
+        category: 'Sarees'
       }
     ],
     createdAt: new Date().toISOString()
@@ -97,8 +101,22 @@ const OrdersPage = () => {
                 <p className="text-xs uppercase tracking-[0.32em] text-boutique-gold">Items</p>
                 <div className="mt-3 space-y-3">
                   {(order.items || []).map((item, index) => (
-                    <div key={`${order._id}-${item.name}-${index}`} className="flex items-center justify-between gap-4">
-                      <p className="text-sm text-boutique-maroon">{item.name}</p>
+                    <div
+                      key={`${order._id}-${item.name}-${index}`}
+                      className="grid gap-3 rounded-[1.2rem] bg-white/70 p-3 sm:grid-cols-[82px,1fr,auto] sm:items-center"
+                    >
+                      <ProductImage
+                        product={item}
+                        fit="contain"
+                        className="h-20 rounded-[0.95rem] bg-[#f7efe8]"
+                        imageClassName="p-2"
+                      />
+                      <div>
+                        <p className="text-sm font-medium text-boutique-maroon">{item.name}</p>
+                        <p className="mt-1 text-xs uppercase tracking-[0.24em] text-boutique-gold">
+                          {[item.fabric, item.category].filter(Boolean).join(' · ') || 'Raes Boutique'}
+                        </p>
+                      </div>
                       <p className="text-sm text-boutique-ink/65">Qty {item.quantity}</p>
                     </div>
                   ))}

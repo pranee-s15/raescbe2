@@ -7,6 +7,7 @@ export const ShopProvider = ({ children }) => {
   const [cart, setCart] = useLocalStorage('raes-cart', []);
   const [pendingCheckout, setPendingCheckout] = useLocalStorage('raes-pending-checkout', []);
   const [lastOrder, setLastOrder] = useLocalStorage('raes-last-order', null);
+  const [orderHistory, setOrderHistory] = useLocalStorage('raes-order-history', []);
 
   const addToCart = (product, quantity = 1) => {
     setCart((current) => {
@@ -40,11 +41,24 @@ export const ShopProvider = ({ children }) => {
 
   const clearPendingCheckout = () => setPendingCheckout([]);
 
+  const addOrder = (order) => {
+    setLastOrder(order);
+    setOrderHistory((current) => [order, ...current.filter((item) => item._id !== order._id)]);
+  };
+
+  const updateOrder = (orderId, updates) => {
+    setOrderHistory((current) =>
+      current.map((order) => (order._id === orderId ? { ...order, ...updates } : order))
+    );
+    setLastOrder((current) => (current?._id === orderId ? { ...current, ...updates } : current));
+  };
+
   const value = useMemo(
     () => ({
       cart,
       pendingCheckout,
       lastOrder,
+      orderHistory,
       cartCount: cart.reduce((sum, item) => sum + item.quantity, 0),
       addToCart,
       removeFromCart,
@@ -52,9 +66,11 @@ export const ShopProvider = ({ children }) => {
       clearCart,
       startBuyNow,
       clearPendingCheckout,
-      setLastOrder
+      setLastOrder,
+      addOrder,
+      updateOrder
     }),
-    [cart, pendingCheckout, lastOrder]
+    [cart, pendingCheckout, lastOrder, orderHistory]
   );
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;

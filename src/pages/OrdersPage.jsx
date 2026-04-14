@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { PackageCheck } from 'lucide-react';
+import { CircleCheckBig, PackageCheck, PhoneCall, RotateCcw, XCircle } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { apiRequest } from '../api/client';
 import BackButton from '../components/shared/BackButton';
@@ -15,6 +15,8 @@ const demoOrders = [
     status: 'Ordered',
     paymentMethod: 'Credit Card',
     totalAmount: 14999,
+    cancellationReason: '',
+    sizeChangeRequest: '',
     items: [
       {
         _id: 'demo-product-1',
@@ -28,24 +30,28 @@ const demoOrders = [
   }
 ];
 
+const BOUTIQUE_SUPPORT_NUMBER = '09363126467';
+
 const OrdersPage = () => {
   const { token, user } = useAuth();
-  const { lastOrder } = useShop();
+  const { lastOrder, orderHistory, updateOrder } = useShop();
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState('');
+  const [cancelInputs, setCancelInputs] = useState({});
+  const [sizeInputs, setSizeInputs] = useState({});
 
   const isDemoMode = user?.isDemoMode;
 
   useEffect(() => {
     if (isDemoMode) {
-      setOrders(lastOrder ? [lastOrder, ...demoOrders] : demoOrders);
+      setOrders([...orderHistory, ...demoOrders]);
       return;
     }
 
     apiRequest('/orders/mine', { token })
       .then((data) => setOrders(lastOrder ? [lastOrder, ...data] : data))
       .catch((fetchError) => setError(fetchError.message));
-  }, [isDemoMode, lastOrder, token]);
+  }, [isDemoMode, lastOrder, orderHistory, token]);
 
   const uniqueOrders = useMemo(() => {
     const seen = new Set();
@@ -58,6 +64,35 @@ const OrdersPage = () => {
       return true;
     });
   }, [orders]);
+
+  const handleCancelOrder = (orderId) => {
+    const reason = cancelInputs[orderId]?.trim();
+
+    if (!reason) {
+      setError('Please enter a cancellation reason before cancelling the order.');
+      return;
+    }
+
+    setError('');
+    updateOrder(orderId, {
+      status: 'Cancelled',
+      cancellationReason: reason
+    });
+  };
+
+  const handleSizeRequest = (orderId) => {
+    const request = sizeInputs[orderId]?.trim();
+
+    if (!request) {
+      setError('Please enter the size change details before sending the request.');
+      return;
+    }
+
+    setError('');
+    updateOrder(orderId, {
+      sizeChangeRequest: request
+    });
+  };
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-16 md:px-8">
@@ -84,7 +119,16 @@ const OrdersPage = () => {
                 <div className="grid gap-4 sm:grid-cols-3">
                   <div>
                     <p className="text-xs uppercase tracking-[0.32em] text-boutique-gold">Status</p>
-                    <p className="mt-2 text-sm text-boutique-maroon">{order.status}</p>
+                    <div
+                      className={`mt-2 inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm ${
+                        order.status === 'Cancelled'
+                          ? 'bg-red-50 text-red-600'
+                          : 'bg-emerald-50 text-emerald-600'
+                      }`}
+                    >
+                      {order.status === 'Cancelled' ? <XCircle size={15} /> : <CircleCheckBig size={15} />}
+                      <span>{order.status}</span>
+                    </div>
                   </div>
                   <div>
                     <p className="text-xs uppercase tracking-[0.32em] text-boutique-gold">Payment</p>
@@ -121,6 +165,69 @@ const OrdersPage = () => {
                     </div>
                   ))}
                 </div>
+              </div>
+
+              <div className="mt-5 grid gap-4 lg:grid-cols-2">
+                <div className="rounded-[1.5rem] bg-boutique-background p-5">
+                  <p className="text-xs uppercase tracking-[0.32em] text-boutique-gold">Cancel Order</p>
+                  <textarea
+                    value={cancelInputs[order._id] || order.cancellationReason || ''}
+                    onChange={(event) =>
+                      setCancelInputs((current) => ({ ...current, [order._id]: event.target.value }))
+                    }
+                    placeholder="Tell us why you want to cancel this order."
+                    disabled={order.status === 'Cancelled'}
+                    className="mt-3 min-h-[96px] w-full rounded-[1.15rem] bg-white px-4 py-3 text-sm text-boutique-maroon outline-none ring-1 ring-transparent transition focus:ring-boutique-gold disabled:cursor-not-allowed disabled:bg-white/70"
+                  />
+                  <div className="mt-4 flex flex-wrap items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => handleCancelOrder(order._id)}
+                      disabled={order.status === 'Cancelled'}
+                      className="rounded-full bg-red-500 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-red-600 disabled:cursor-not-allowed disabled:bg-red-200"
+                    >
+                      {order.status === 'Cancelled' ? 'Order Cancelled' : 'Cancel This Order'}
+                    </button>
+                    {order.cancellationReason ? (
+                      <p className="text-xs text-boutique-ink/65">Reason saved for this order.</p>
+                    ) : null}
+                  </div>
+                </div>
+
+                <div className="rounded-[1.5rem] bg-boutique-background p-5">
+                  <p className="text-xs uppercase tracking-[0.32em] text-boutique-gold">Change Product Size</p>
+                  <textarea
+                    value={sizeInputs[order._id] || order.sizeChangeRequest || ''}
+                    onChange={(event) =>
+                      setSizeInputs((current) => ({ ...current, [order._id]: event.target.value }))
+                    }
+                    placeholder="Example: Change blouse size to 36 or update salwar size to L."
+                    className="mt-3 min-h-[96px] w-full rounded-[1.15rem] bg-white px-4 py-3 text-sm text-boutique-maroon outline-none ring-1 ring-transparent transition focus:ring-boutique-gold"
+                  />
+                  <div className="mt-4 flex flex-wrap items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => handleSizeRequest(order._id)}
+                      className="inline-flex items-center gap-2 rounded-full bg-boutique-maroon px-5 py-2.5 text-sm font-medium text-white transition hover:bg-boutique-gold hover:text-boutique-maroon"
+                    >
+                      <RotateCcw size={15} />
+                      Request Change
+                    </button>
+                    {order.sizeChangeRequest ? (
+                      <p className="text-xs text-boutique-ink/65">Size request saved for this order.</p>
+                    ) : null}
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4 flex flex-wrap gap-3">
+                <a
+                  href={`tel:${BOUTIQUE_SUPPORT_NUMBER}`}
+                  className="inline-flex items-center gap-2 rounded-full bg-boutique-maroon px-5 py-2.5 text-sm font-medium text-white transition hover:bg-boutique-gold hover:text-boutique-maroon"
+                >
+                  <PhoneCall size={15} />
+                  Help With Call
+                </a>
               </div>
             </div>
           ))}

@@ -3,6 +3,24 @@ import { Link } from 'react-router-dom';
 import { quickLinks } from '../../data/site';
 import LogoMark from '../shared/LogoMark';
 
+const socialLinks = [
+  {
+    icon: Instagram,
+    href: 'https://www.instagram.com/raes_rajarajeswari/',
+    label: 'Instagram'
+  },
+  {
+    icon: Facebook,
+    href: '#',
+    label: 'Facebook'
+  },
+  {
+    icon: Send,
+    href: '#',
+    label: 'Telegram'
+  }
+];
+
 const Footer = () => (
   <footer className="mt-24 bg-boutique-maroon px-4 py-12 text-boutique-white md:px-8">
     <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[1.2fr,0.8fr,0.6fr]">
@@ -32,14 +50,17 @@ const Footer = () => (
       <div>
         <p className="mb-4 text-xs uppercase tracking-[0.36em] text-boutique-gold">Social</p>
         <div className="flex gap-3">
-          {[Instagram, Facebook, Send].map((Icon, index) => (
-            <button
-              key={index}
-              type="button"
+          {socialLinks.map(({ icon: Icon, href, label }) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noreferrer"
               className="rounded-full bg-white/10 p-3 text-boutique-gold transition hover:bg-boutique-gold hover:text-boutique-maroon"
+              aria-label={label}
             >
               <Icon size={18} />
-            </button>
+            </a>
           ))}
         </div>
       </div>

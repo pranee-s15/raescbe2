@@ -156,7 +156,7 @@ const CheckoutPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { token, user, updateProfile } = useAuth();
-  const { cart, pendingCheckout, clearCart, clearPendingCheckout, setLastOrder } = useShop();
+  const { cart, pendingCheckout, clearCart, clearPendingCheckout, addOrder } = useShop();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [saveAddress, setSaveAddress] = useState(true);
@@ -250,10 +250,10 @@ const CheckoutPage = () => {
         }
       });
 
-      setLastOrder(data.order);
+      addOrder(data.order);
     } catch (submitError) {
       if ((import.meta.env.DEV || IS_FRONTEND_ONLY) && (user?.isDemoMode || isServerUnavailable(submitError.message))) {
-        setLastOrder(createLocalOrder({ items, form, subtotal, shipping, tax, total }));
+        addOrder(createLocalOrder({ items, form, subtotal, shipping, tax, total }));
       } else {
         setError(submitError.message);
         setSubmitting(false);

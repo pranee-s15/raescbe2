@@ -1,13 +1,10 @@
 node_modules
-#dist
+dist
 .env
 .env.*
 .DS_Store
 coverage
-backend/uploads
-frontend/.vite
-backend/.env
-frontend/.env
+.vite
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

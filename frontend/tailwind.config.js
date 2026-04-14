@@ -15,9 +15,9 @@ export default {
         }
       },
       fontFamily: {
-        display: ['"Poppins"', '"Segoe UI"', 'sans-serif'],
-        section: ['"Poppins"', '"Segoe UI"', 'sans-serif'],
-        body: ['"Inter"', '"Segoe UI"', 'sans-serif']
+        display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+        section: ['"Lora"', 'Georgia', 'serif'],
+        body: ['"Manrope"', '"Segoe UI"', 'sans-serif']
       },
       boxShadow: {
         luxe: '0 24px 60px rgba(107, 15, 26, 0.12)',

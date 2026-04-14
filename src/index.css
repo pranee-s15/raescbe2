@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Attera';
+  src: url('./assets/fonts/attera.regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    
+    @apply bg-boutique-background font-body text-boutique-ink;
+    overflow-x: auto;
+    background-image:
+      radial-gradient(circle at top left, rgba(212, 175, 55, 0.11), transparent 28%),
+      radial-gradient(circle at bottom right, rgba(107, 15, 26, 0.08), transparent 30%);
+  }
+
+  * {
+    @apply antialiased;
+    box-sizing: border-box;
+  }
+}
+
+@layer utilities {
+  .gold-button {
+    @apply rounded-full bg-boutique-maroon px-6 py-3 text-sm font-medium text-white transition duration-300 hover:bg-boutique-gold hover:text-boutique-maroon;
+  }
+
+  .glass-panel {
+    @apply rounded-[2rem] bg-white/70 shadow-soft backdrop-blur-xl;
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(8%);
+  }
+  100% {
+    transform: translateX(-20%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 18s linear infinite;
+}
